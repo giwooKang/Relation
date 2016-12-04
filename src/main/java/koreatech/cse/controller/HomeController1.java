@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/")
-public class HomeController {
+@RequestMapping("/ex/")
+public class HomeController1 {
     @Value("${env.text}")
     private String env;
 
@@ -23,7 +23,8 @@ public class HomeController {
 
     @RequestMapping
     public String home() {
-        return "hello";
+        System.out.println(env);
+        return "wsc/hello";
     }
 
     @RequestMapping("/jstlTest")
@@ -54,7 +55,7 @@ public class HomeController {
         stringMap.put(3, "three");
         model.addAttribute("stringMap", stringMap);
 
-        return "jstlTest";
+        return "wsc/jstlTest";
     }
 
 

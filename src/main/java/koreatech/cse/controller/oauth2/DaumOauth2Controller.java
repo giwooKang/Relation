@@ -114,7 +114,7 @@ public class DaumOauth2Controller {
     @RequestMapping(value = "/daum_book_request", method = RequestMethod.GET)
     public String daumBookRequest(Model model, @RequestParam(name = "userId") String userId) {
         model.addAttribute("userId", userId);
-        return "daumBookRequest";
+        return "wsc/daumBookRequest";
     }
 
     @RequestMapping("/daumbook")
@@ -132,6 +132,6 @@ public class DaumOauth2Controller {
         }
         model.addAttribute("searchWord", searchWord);
         model.addAttribute("daumBook", daumBook);
-        return "daumBook";
+        return "wsc/daumBook";
     }
 }

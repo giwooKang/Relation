@@ -14,7 +14,7 @@ import javax.inject.Inject;
 
 @Controller
 
-@RequestMapping("/user")
+@RequestMapping("/ex/user")
 public class UserController {
     @Inject
     private UserMapper userMapper;
@@ -26,14 +26,14 @@ public class UserController {
     public String signup(Model model) {
         User user = new User();
         model.addAttribute("user", user);
-        return "signup";
+        return "wsc/signup";
     }
 
     @Transactional
     @RequestMapping(value="/signup", method= RequestMethod.POST)
     public String signup(@ModelAttribute User user) {
         userService.signup(user);
-        return "redirect:/user/list";
+        return "redirect:/ex/user/list";
     }
 
 
@@ -45,14 +45,14 @@ public class UserController {
         searchable.setOrderParam(order);
         //model.addAttribute("users", userMapper.findByProvider(searchable));
         model.addAttribute("users", userMapper.findByScript(searchable));
-        return "list";
+        return "wsc/list";
     }
 
 
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public String edit(@RequestParam int id, Model model) {
         model.addAttribute("user", userMapper.findOne(id));
-        return "edit";
+        return "wsc/edit";
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
@@ -73,7 +73,7 @@ public class UserController {
 
     @RequestMapping("/signin")
     public String signin() {
-        return "signin";
+        return "wsc/signin";
     }
 
     @RequestMapping(value="/signinSuccess")

@@ -112,7 +112,7 @@ public class FacebookOauth2Controller {
     @RequestMapping(value = "/facebook_likes_request", method = RequestMethod.GET)
     public String facebookFriendsRequest(Model model, @RequestParam(name = "userId") String userId) {
         model.addAttribute("userId", userId);
-        return "facebookLikesRequest";
+        return "wsc/facebookLikesRequest";
     }
 
     @RequestMapping("/facebookLikes")
@@ -131,6 +131,6 @@ public class FacebookOauth2Controller {
         }
         model.addAttribute("userId", userId);
         model.addAttribute("facebookLike", facebookLike);
-        return "facebookLikes";
+        return "wsc/facebookLikes";
     }
 }
