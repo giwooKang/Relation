@@ -31,6 +31,7 @@
     </bean>
 
     <!-- MyBatis -->
+    <mybatis:scan base-package="relation.repository" />
     <mybatis:scan base-package="koreatech.cse.repository" />
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
