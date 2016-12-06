@@ -6,34 +6,49 @@ package relation.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
-import relation.parser.DaumParser;
-import relation.parser.NaverParser;
-import relation.parser.ParserUtil;
+import relation.domain.HotKeyword;
+import relation.service.DaumService;
+import relation.service.NaverService;
+import relation.service.RelationUtil;
+import relation.repository.HotKeywordMapper;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
+import java.sql.Timestamp;
+import java.util.*;
 
 
 @Controller
 @RequestMapping("/")
 public class HomeController {
     @Inject
-    NaverParser naverParser;
+    NaverService naverService;
     @Inject
-    DaumParser daumParser;
+    DaumService daumService;
     @Inject
-    ParserUtil parserUtil;
+    RelationUtil relationUtil;
 
+    @Inject
+    HotKeywordMapper hotKeywordMapper;
 
     @RequestMapping
     public String home() {
         HashSet<String> nRankList= null;
         HashSet<String> dRankList = null;
         HashMap<String,Integer> aa= new HashMap<String,Integer>();
+        HotKeyword hotKeyword = new HotKeyword();
+        hotKeyword.setDatetime(new Timestamp(Calendar.getInstance().getTime().getTime()));
+        hotKeyword.setDaum(true);
+        hotKeyword.setGoogle(false);
+        hotKeyword.setNaver(true);
+        hotKeyword.setImage("image");
+        hotKeyword.setKeyword("keyword");
+
+        //hotKeywordMapper.insert(hotKeyword);
+        for(HotKeyword h:hotKeywordMapper.findByKeyword("keyword")){
+            System.out.println(h);
+        }
+
+
 /*        nRankList = naverParser.getCurrentRankList();
         dRankList= daumParser.getCurrentRankList();
 

@@ -1,7 +1,5 @@
-package relation.parser;
+package relation.service;
 
-import org.jsoup.Connection;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -16,13 +14,13 @@ import java.util.HashSet;
  */
 
 @Service
-public class NaverParser {
+public class NaverService {
     @Inject
-    ParserUtil parserUtil;
+    RelationUtil relationUtil;
 
     public HashSet<String> getCurrentRankList(){
 
-        Document doc = parserUtil.getDocument("http://www.naver.com");
+        Document doc = relationUtil.getDocument("http://www.naver.com");
         Elements rankElement = doc.select("#ranklist a");
 
         HashSet<String> rankSet = new HashSet<String>();
@@ -34,7 +32,7 @@ public class NaverParser {
     }
 
     public HashSet<String> getRelatedSearches(String word){
-        Document doc = parserUtil.getDocument("https://search.naver.com/search.naver?query="+word);
+        Document doc = relationUtil.getDocument("https://search.naver.com/search.naver?query="+word);
         Elements rankElement = doc.select("#nx_related_keywords .lst_relate li");
 
         HashSet<String> relSet = new HashSet<String>();
@@ -48,6 +46,7 @@ public class NaverParser {
         HashMap<String,Integer> relMap = new HashMap<String,Integer>();
         HashMap<String,Integer> tempMap;
         HashSet<String> resultSet =getRelatedSearches(word);
+
         for(String relWord: resultSet){
             if(relMap.containsKey(relWord)){
                 relMap.put(relWord,relMap.get(relWord)+1);
@@ -55,8 +54,15 @@ public class NaverParser {
                 relMap.put(relWord,1);
             }
         }
+
         if(depth>1){
             for(String relWord: resultSet) {
+                try {
+                    Thread.sleep(500);
+                }catch (Exception e){
+
+                }
+
                 tempMap = getRelatedSearchesMap(relWord, depth - 1);
                 for(String result: tempMap.keySet()){
                     if(relMap.containsKey(result)){

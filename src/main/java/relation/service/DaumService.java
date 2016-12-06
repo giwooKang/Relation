@@ -1,4 +1,4 @@
-package relation.parser;
+package relation.service;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -12,12 +12,12 @@ import java.util.HashSet;
  * Created by DK on 2016-12-05.
  */
 @Service
-public class DaumParser {
+public class DaumService {
     @Inject
-    ParserUtil parserUtil;
+    RelationUtil relationUtil;
     public HashSet<String> getCurrentRankList(){
 
-        Document doc = parserUtil.getDocument("http://www.daum.net");
+        Document doc = relationUtil.getDocument("http://www.daum.net");
         Elements rankElement = doc.select("#realTimeSearchWord .txt_issue a.ellipsis_g");
 
         HashSet<String> rankSet = new HashSet<String>();
@@ -28,7 +28,7 @@ public class DaumParser {
     }
 
     public  HashSet<String> getRelatedSearches(String word){
-        Document doc = parserUtil.getDocument("http://search.daum.net/search?w=tot&DA=YZR&t__nil_searchbox=btn&sug=&sugo=&q="+word);
+        Document doc = relationUtil.getDocument("http://search.daum.net/search?w=tot&DA=YZR&t__nil_searchbox=btn&sug=&sugo=&q="+word);
         Elements rankElement = doc.select("#netizen_lists_top a");
 
         HashSet<String> rankSet = new HashSet<String>();
@@ -45,12 +45,12 @@ public class DaumParser {
 
 
     public void test(){
-        Document doc = parserUtil.getDocument("http://www.daum.net");
+        Document doc = relationUtil.getDocument("http://www.daum.net");
         Elements rankElement = doc.select("#realTimeSearchWord .txt_issue a[href]");
 
         HashSet<String> rankSet = new HashSet<String>();
         for(Element e : rankElement){
-            System.out.println(parserUtil.getDocument(e.attr("href")).toString());
+            System.out.println(relationUtil.getDocument(e.attr("href")).toString());
         }
     }
 

@@ -1,6 +1,5 @@
-package relation.parser;
+package relation.service;
 
-import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Service;
@@ -12,18 +11,18 @@ import java.util.*;
  * Created by DK on 2016-12-06.
  */
 @Service
-public class ParserUtil {
+public class RelationUtil {
     @Inject
-    NaverParser naverParser;
+    NaverService naverService;
     @Inject
-    DaumParser daumParser;
+    DaumService daumService;
 
     public Document getDocument(String uri){
         Document doc=null;
         try{
             doc = Jsoup.connect(uri).header("user-agent","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.87 Safari/537.36").get();
         }catch (Exception e){
-            System.out.println("relation.parser.ParserUtil : getDocument("+uri+") Error");
+            System.out.println("relation.service.ParserUtil : getDocument("+uri+") Error");
         }
         return doc;
     }
@@ -31,10 +30,10 @@ public class ParserUtil {
     public HashSet<String> getCurrentRankList(){
         HashSet<String> rankSet = new HashSet<String>();
 
-        for(String word : daumParser.getCurrentRankList()){
+        for(String word : daumService.getCurrentRankList()){
             rankSet.add(word);
         }
-        for(String word: naverParser.getCurrentRankList()){
+        for(String word: naverService.getCurrentRankList()){
             rankSet.add(word);
         }
         return rankSet;
