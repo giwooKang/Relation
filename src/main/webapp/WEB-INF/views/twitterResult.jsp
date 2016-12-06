@@ -15,7 +15,7 @@
 <h2>트위터 검색 결과: 검색어 - ${keyword}</h2>
 
 <c:forEach var="item" items="${tweets}">
-    ${item.getUser().getScreenName()}, ${item.getText()} <br/><br/>
+    ${item.getTitle()}, ${item.getLink()} <br/><br/>
 </c:forEach>
 </body>
 </html>

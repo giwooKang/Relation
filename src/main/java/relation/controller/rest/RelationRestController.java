@@ -10,6 +10,7 @@ import relation.domain.RelationToJsonWrapper;
 import relation.repository.RelationMapper;
 
 import javax.inject.Inject;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class RelationRestController {
             dummyKeywordMap.put("최순실", 1);
             dummyKeywordMap.put("더미데이터", 1);
 
-            Relation relation = new Relation("박근혜", dummyKeywordMap);
+            Relation relation = new Relation("박근혜", new Date(), dummyKeywordMap);
             relationMapper.insert(new RelationToJsonWrapper(relation));
 
             return relation;

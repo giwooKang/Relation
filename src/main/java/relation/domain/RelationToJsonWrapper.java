@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
+import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -12,34 +13,45 @@ import java.util.HashMap;
 public class RelationToJsonWrapper {
     private int id;
     private String keyword;
+    private Date date;
     private String relation;
 
     public RelationToJsonWrapper() {
     }
 
-    public RelationToJsonWrapper(int id, String keyword, String relation) {
-        this.id = id;
-        this.keyword = keyword;
-        this.relation = relation;
-    }
-
     public RelationToJsonWrapper(Relation relation) {
         Gson gson = new Gson();
 
+        this.id = relation.getId();
         this.keyword = relation.getKeyword();
+        this.date = relation.getDate();
         this.relation = gson.toJson(relation.getRelation());
+    }
+
+    public Relation toRelation() {
+        Gson gson = new Gson();
+        try{
+            HashMap<String, Integer> rel = gson.fromJson(this.relation, new TypeToken<HashMap<String, Integer>>(){}.getType());
+            return new Relation(this.id, this.keyword, this.date, rel);
+        }catch (JsonSyntaxException e){
+            return null;
+        }
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getKeyword() {
         return keyword;
     }
 
-    public String getRelation() {
-        return relation;
+    public Date getDate() {
+        return date;
     }
 
-    public int getId() {
-        return id;
+    public String getRelation() {
+        return relation;
     }
 
     public void setId(int id) {
@@ -50,17 +62,11 @@ public class RelationToJsonWrapper {
         this.keyword = keyword;
     }
 
-    public void setRelation(String relation) {
-        this.relation = relation;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
-    public Relation toRelation() {
-        Gson gson = new Gson();
-        try{
-            HashMap<String, Integer> relation = gson.fromJson(this.relation, new TypeToken<HashMap<String, Integer>>(){}.getType());
-            return new Relation(this.id, this.keyword, relation);
-        }catch (JsonSyntaxException e){
-            return null;
-        }
+    public void setRelation(String relation) {
+        this.relation = relation;
     }
 }

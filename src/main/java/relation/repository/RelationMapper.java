@@ -13,11 +13,11 @@ import java.util.List;
 
 @Repository
 public interface RelationMapper {
-    @Insert("INSERT INTO RELATION (KEYWORD, RELATION) VALUES (#{keyword}, #{relation})")
+    @Insert("INSERT INTO RELATION (KEYWORD, DATE, RELATION) VALUES (#{keyword}, #{date}, #{relation})")
     @SelectKey(statement = "SELECT LAST_INSERT_ID()", keyProperty = "id", before = false, resultType = int.class)
     void insert(RelationToJsonWrapper relationToJsonWrapper);
 
-    @Update("UPDATE RELATION SET KEYWORD = #{keyword}, RELATION = #{relation} WHERE ID = #{id}")
+    @Update("UPDATE RELATION SET KEYWORD = #{keyword}, RELATION = #{relation}, DATE = #{date} WHERE ID = #{id}")
     void update(RelationToJsonWrapper relationToJsonWrapper);
 
     @Select("SELECT * FROM RELATION WHERE ID = #{id}")

@@ -31,7 +31,6 @@ public class UserService implements UserDetailsService {
     @Inject
     private PasswordEncoder passwordEncoder;
 
-
     public Boolean signup(User user) {
         if(user.getEmail() == null || user.getPassword() ==  null)
             return false;

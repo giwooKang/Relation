@@ -1,5 +1,6 @@
 package relation.domain;
 
+import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -8,33 +9,39 @@ import java.util.HashMap;
 public class Relation {
     private int id;
     private String keyword;
+    private Date date;
     private HashMap<String, Integer> relation;
 
     public Relation() {
     }
 
-    public Relation(int id, String keyword, HashMap<String, Integer> relation) {
+    public Relation(int id, String keyword, Date date, HashMap<String, Integer> relation) {
         this.id = id;
         this.keyword = keyword;
+        this.date = date;
         this.relation = relation;
     }
 
-    public Relation(String keyword, HashMap<String, Integer> relation) {
-        this.id = 0;
+    public Relation(String keyword, Date date, HashMap<String, Integer> relation) {
         this.keyword = keyword;
+        this.date = date;
         this.relation = relation;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getKeyword() {
         return keyword;
     }
 
-    public HashMap<String, Integer> getRelation() {
-        return relation;
+    public Date getDate() {
+        return date;
     }
 
-    public int getId() {
-        return id;
+    public HashMap<String, Integer> getRelation() {
+        return relation;
     }
 
     public void setId(int id) {
@@ -43,6 +50,10 @@ public class Relation {
 
     public void setKeyword(String keyword) {
         this.keyword = keyword;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public void setRelation(HashMap<String, Integer> relation) {
