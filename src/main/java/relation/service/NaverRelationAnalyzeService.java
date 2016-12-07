@@ -4,7 +4,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
-import relation.domain.HotKeyword;
 
 import javax.inject.Inject;
 import java.util.HashMap;
@@ -33,7 +32,7 @@ public class NaverRelationAnalyzeService {
         return relSet;
     }
 
-    public HashMap<String, Integer> getRelatedSearchesMap(String word, int depth) {
+    public HashMap<String, Integer> getRelatedSearchesMap(String word, int depth, boolean hasDealy) {
         HashMap<String, Integer> relMap = new HashMap<String, Integer>();
         HashMap<String, Integer> tempMap;
         HashSet<String> resultSet = getRelatedSearches(word);
@@ -48,13 +47,15 @@ public class NaverRelationAnalyzeService {
 
         if (depth > 1) {
             for (String relWord : resultSet) {
-                try {
-                    Thread.sleep(500);
-                } catch (Exception e) {
-                    // do nothing
+                if(hasDealy) {
+                    try {
+                        Thread.sleep(500);
+                    } catch (Exception e) {
+                        // do nothing
+                    }
                 }
 
-                tempMap = getRelatedSearchesMap(relWord, depth - 1);
+                tempMap = getRelatedSearchesMap(relWord, depth - 1, hasDealy);
                 for (String result : tempMap.keySet()) {
                     if (relMap.containsKey(result)) {
                         relMap.put(result, relMap.get(result) + tempMap.get(result));

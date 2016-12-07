@@ -52,7 +52,7 @@ public class RelationCron {
 
         // Step 2 : relation 분석 후 DB에 추가
         for(HotKeyword item : hotKeywordAtNow) {
-            HashMap<String, Integer> relation = relationService.getRelatedSearchesMap(item.getKeyword());
+            HashMap<String, Integer> relation = relationService.getRelatedSearchesMap(item.getKeyword(), true);
 
             twitterService.accumulateTwitterSearchWeight(relation, item.getKeyword());
 

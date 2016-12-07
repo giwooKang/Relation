@@ -28,8 +28,8 @@ public interface HotKeywordMapper {
     List<HotKeyword> getDictinctRecentlyKeyword(@Param("count") int count);
 
     @Select("SELECT * FROM relation.hotkeywords WHERE DATETIME >= #{startdate} AND DATETIME <= #{enddate} ORDER BY ID DESC LIMIT #{count}")
-    List<HotKeyword> getByDatetime(@Param("startdate")Timestamp startdate,@Param("enddate")Timestamp enddate,@Param("count")int count);
+    List<HotKeyword> getByDatetime(@Param("startdate")Timestamp startdate, @Param("enddate")Timestamp enddate, @Param("count")int count);
 
     @Select("SELECT max(ID) as id,keyword,image,google,naver,daum,datetime FROM relation.hotkeywords WHERE DATETIME >= #{startdate} AND DATETIME <= #{enddate} group by keyword ORDER BY ID DESC LIMIT #{count}")
-    List<HotKeyword> getDistinctByDatetime(@Param("startdate")Timestamp startdate,@Param("enddate")Timestamp enddate,@Param("count")int count);
+    List<HotKeyword> getDistinctByDatetime(@Param("startdate")Timestamp startdate,@Param("enddate")Timestamp enddate, @Param("count")int count);
 }

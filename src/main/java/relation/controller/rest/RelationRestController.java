@@ -5,12 +5,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import relation.domain.HotKeyword;
 import relation.domain.Relation;
 import relation.domain.RelationToJsonWrapper;
+import relation.repository.HotKeywordMapper;
 import relation.repository.RelationMapper;
+import relation.service.RelationService;
 
 import javax.inject.Inject;
-import java.security.Timestamp;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -26,50 +32,77 @@ public class RelationRestController {
 
     @Inject
     private RelationMapper relationMapper;
+    @Inject
+    private RelationService relationService;
+    @Inject
+    private HotKeywordMapper hotKeywordMapper;
 
     @RequestMapping(value = "/requestRelation", method = RequestMethod.GET, produces = "application/json")
     public Relation getRelation(@RequestParam(value="keyword", defaultValue="") String keyword){
+        if(keyword.equals("")) {
+            return null;
+        }
         List<RelationToJsonWrapper> relationList = relationMapper.findByKeyword(keyword);
-        if(relationList.size() == 0 || keyword.equals("")) {
-            // db에 키워드 존재하지 않음, 새로 만들어 반환?
-            HashMap<String, Integer> dummyKeywordMap = new HashMap<String, Integer>();
-
-            dummyKeywordMap.put("박근혜", 1);
-            dummyKeywordMap.put("박근혜 하야", 1);
-            dummyKeywordMap.put("박근혜 국정농단", 1);
-            dummyKeywordMap.put("박근혜 최순실 관계", 1);
-            dummyKeywordMap.put("최순실", 1);
-            dummyKeywordMap.put("더미데이터", 1);
-
-            Calendar calendar = Calendar.getInstance();
-            Relation relation = new Relation("박근혜", new java.sql.Timestamp(calendar.getTimeInMillis()), dummyKeywordMap);
-            relationMapper.insert(new RelationToJsonWrapper(relation));
-
+        if(relationList.size() == 0) {
+            Relation relation = relationService.findRelationByKeyword(keyword);
             return relation;
         }
         return relationList.get(0).toRelation();
     }
 
-//    @RequestMapping(value = "/requestHotKeyword", method = RequestMethod.GET, produces = "application/json")
-//    public Relation getRelation(@RequestParam(value="period", defaultValue="") String keyword){
-//        List<RelationToJsonWrapper> relationList = relationMapper.findByKeyword(keyword);
-//        if(relationList.size() == 0) {
-//            // db에 키워드 존재하지 않음, 새로 만들어 반환?
-//            HashMap<String, Integer> dummyKeywordMap = new HashMap<String, Integer>();
-//
-//            dummyKeywordMap.put("박근혜", 1);
-//            dummyKeywordMap.put("박근혜 하야", 1);
-//            dummyKeywordMap.put("박근혜 국정농단", 1);
-//            dummyKeywordMap.put("박근혜 최순실 관계", 1);
-//            dummyKeywordMap.put("최순실", 1);
-//            dummyKeywordMap.put("더미데이터", 1);
-//
-//            Calendar calendar = Calendar.getInstance();
-//            Relation relation = new Relation("박근혜", new java.sql.Timestamp(calendar.getTimeInMillis()), dummyKeywordMap);
-//            relationMapper.insert(new RelationToJsonWrapper(relation));
-//
-//            return relation;
-//        }
-//        return relationList.get(0).toRelation();
-//    }
+    @RequestMapping(value = "/requestHotKeyword", method = RequestMethod.GET, produces = "application/json")
+    public List<HotKeyword> getHotKeywords(@RequestParam(value="startDate", defaultValue="_") String startDate, @RequestParam(value="endDate", defaultValue="_") String endDate, @RequestParam(value="count", defaultValue="10") String count, @RequestParam(value="distinct", defaultValue = "true") String isDistinct) {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+        Timestamp start;
+        Timestamp end;
+        boolean distinct = true;
+        int count_num;
+
+        if(!isValidFormat(format, startDate)){
+            startDate = format.format(cal.getTime());
+        }
+        if(!isValidFormat(format, endDate)) {
+            cal.add(Calendar.DATE, 1);
+            endDate = format.format(cal.getTime());
+        }
+
+        try{
+            start = new Timestamp(format.parse(startDate).getTime());
+            end = new Timestamp(format.parse(endDate).getTime());
+            if(isDistinct.equals("false")){
+                distinct = false;
+            }
+        }catch (ParseException e){
+            e.printStackTrace();
+            return null;
+        }
+        try{
+            count_num = Integer.parseInt(count);
+        }catch (Exception e){
+            count_num = 10;
+        }
+
+        List<HotKeyword> keywords;
+        if(distinct) {
+            keywords = hotKeywordMapper.getDistinctByDatetime(start, end, count_num);
+        }else {
+            keywords = hotKeywordMapper.getByDatetime(start, end, count_num);
+        }
+        return keywords;
+    }
+
+    private boolean isValidFormat(SimpleDateFormat format, String value) {
+        Date date = null;
+        try {
+            date = format.parse(value);
+            if (!value.equals(format.format(date))) {
+                date = null;
+            }
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+        return date != null;
+    }
 }

@@ -38,7 +38,7 @@ public class RelationService {
         try{
             List<RelationToJsonWrapper> relationList = relationMapper.findByKeyword(keyword);
             if(relationList.size() == 0) {
-                HashMap<String, Integer> relation = getRelatedSearchesMap(keyword);
+                HashMap<String, Integer> relation = getRelatedSearchesMap(keyword, false);
 
                 // relation 분석 결과에 트위터 검색 결과 등장하는 단어 수 만큼 가중치 부여
                 twitterService.accumulateTwitterSearchWeight(relation, keyword);
@@ -118,7 +118,7 @@ public class RelationService {
         return list;
     }
 
-    public HashMap<String, Integer> getRelatedSearchesMap(String keyword){
-        return naverRelationAnalyzeService.getRelatedSearchesMap(keyword, 2);
+    public HashMap<String, Integer> getRelatedSearchesMap(String keyword, boolean hasDealy){
+        return naverRelationAnalyzeService.getRelatedSearchesMap(keyword, 2, hasDealy);
     }
 }
