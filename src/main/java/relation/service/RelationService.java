@@ -5,8 +5,12 @@ import org.jsoup.nodes.Document;
 import org.springframework.core.ExceptionDepthComparator;
 import org.springframework.stereotype.Service;
 import relation.domain.HotKeyword;
+import relation.domain.Relation;
+import relation.domain.RelationToJsonWrapper;
 import relation.domain.daum.DaumImageResult;
 import relation.domain.naver.NaverImageResult;
+import relation.repository.RelationMapper;
+import twitter4j.*;
 
 import javax.inject.Inject;
 import java.sql.Timestamp;
@@ -18,13 +22,40 @@ import java.util.*;
 @Service
 public class RelationService {
     @Inject
-    DocumentParserService documentParserService;
+    private DocumentParserService documentParserService;
     @Inject
-    NaverRelationAnalyzeService naverRelationAnalyzeService;
+    private NaverRelationAnalyzeService naverRelationAnalyzeService;
     @Inject
-    NaverService naverService;
+    private NaverService naverService;
     @Inject
-    DaumService daumService;
+    private DaumService daumService;
+    @Inject
+    private RelationMapper relationMapper;
+    @Inject
+    private TwitterService twitterService;
+
+    public Relation findRelationByKeyword(String keyword) {
+        try{
+            List<RelationToJsonWrapper> relationList = relationMapper.findByKeyword(keyword);
+            if(relationList.size() == 0) {
+                HashMap<String, Integer> relation = getRelatedSearchesMap(keyword);
+
+                // relation 분석 결과에 트위터 검색 결과 등장하는 단어 수 만큼 가중치 부여
+                twitterService.accumulateTwitterSearchWeight(relation, keyword);
+
+                Calendar cal = Calendar.getInstance();
+                RelationToJsonWrapper wrapper = new RelationToJsonWrapper(new Relation(keyword, new Timestamp(cal.getTimeInMillis()), relation));
+                relationMapper.insert(wrapper);
+
+                return wrapper.toRelation();
+            }else{
+                return relationList.get(0).toRelation();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     public List<HotKeyword> getCurrentRankList() {
         HashSet<String> rankSet = new HashSet<String>();

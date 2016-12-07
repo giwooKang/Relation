@@ -9,6 +9,7 @@ import relation.domain.RelationToJsonWrapper;
 import relation.repository.HotKeywordMapper;
 import relation.repository.RelationMapper;
 import relation.service.RelationService;
+import relation.service.TwitterService;
 import twitter4j.*;
 
 import javax.inject.Inject;
@@ -32,6 +33,8 @@ public class RelationCron {
     private HotKeywordMapper hotKeywordMapper;
     @Inject
     private RelationMapper relationMapper;
+    @Inject
+    private TwitterService twitterService;
 
     @Async
     @Scheduled(fixedRate = 3600000)
@@ -51,24 +54,7 @@ public class RelationCron {
         for(HotKeyword item : hotKeywordAtNow) {
             HashMap<String, Integer> relation = relationService.getRelatedSearchesMap(item.getKeyword());
 
-            // Step 3 : relation 분석 결과에 트위터 검색 결과 등장하는 단어 수 만큼 가중치 부여
-            Twitter twitter = new TwitterFactory().getInstance();
-            try {
-                QueryResult result = twitter.search(new Query(item.getKeyword()));
-                List<Status> tweets = result.getTweets();
-
-                String allTweets = "";
-                for(Status status : tweets) {
-                    allTweets += status.getText() + " ";
-                }
-
-                for(String key : relation.keySet()) {
-                    String[] tokenize = allTweets.split(key);
-                    relation.put(key, relation.get(key) + tokenize.length - 1);
-                }
-            } catch (TwitterException te) {
-                // do nothing
-            }
+            twitterService.accumulateTwitterSearchWeight(relation, item.getKeyword());
 
             List<RelationToJsonWrapper> relationToJsonWrapperList = relationMapper.findByKeyword(item.getKeyword());
             if(relationToJsonWrapperList.size()==0) {

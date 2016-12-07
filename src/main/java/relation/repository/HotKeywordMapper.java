@@ -24,18 +24,12 @@ public interface HotKeywordMapper {
     @Select("SELECT * FROM relation.hotkeywords ORDER BY ID DESC LIMIT #{count}")
     List<HotKeyword> getRecentlyKeyword(@Param("count") int count);
 
-    @Select("SELECT max(ID) as id,keyword,image,google,naver,daum,datetime FROM RELATION.HOTKEYWORDS group by keyword ORDER BY ID DESC LIMIT #{count}")
+    @Select("SELECT max(ID) as id,keyword,image,google,naver,daum,datetime FROM relation.hotkeywords group by keyword ORDER BY ID DESC LIMIT #{count}")
     List<HotKeyword> getDictinctRecentlyKeyword(@Param("count") int count);
 
-    @Select("SELECT * FROM RELATION.HOTKEYWORDS WHERE DATETIME >= #{startdate} AND DATETIME <= #{enddate} ORDER BY ID DESC LIMIT #{count}")
+    @Select("SELECT * FROM relation.hotkeywords WHERE DATETIME >= #{startdate} AND DATETIME <= #{enddate} ORDER BY ID DESC LIMIT #{count}")
     List<HotKeyword> getByDatetime(@Param("startdate")Timestamp startdate,@Param("enddate")Timestamp enddate,@Param("count")int count);
 
-    @Select("SELECT * FROM RELATION.HOTKEYWORDS WHERE DATETIME > #{startdate} and DATETIME < #{enddate} ORDER BY DESC LIMIT 10")
-    List<HotKeyword> getByDatetime(@Param("startdate")Timestamp startdate,@Param("enddate")Timestamp enddate);
-
-    @Select("SELECT max(ID) as id,keyword,image,google,naver,daum,datetime FROM RELATION.HOTKEYWORDS WHERE DATETIME >= #{startdate} AND DATETIME <= #{enddate} group by keyword ORDER BY ID DESC LIMIT #{count}")
+    @Select("SELECT max(ID) as id,keyword,image,google,naver,daum,datetime FROM relation.hotkeywords WHERE DATETIME >= #{startdate} AND DATETIME <= #{enddate} group by keyword ORDER BY ID DESC LIMIT #{count}")
     List<HotKeyword> getDistinctByDatetime(@Param("startdate")Timestamp startdate,@Param("enddate")Timestamp enddate,@Param("count")int count);
-
-    @Select("SELECT max(ID) as id,keyword,image,google,naver,daum,datetime FROM RELATION.HOTKEYWORDS WHERE DATETIME >= #{startdate} AND DATETIME <= #{enddate} group by keyword ORDER BY ID DESC LIMIT 10")
-    List<HotKeyword> getDistinctByDatetime(@Param("startdate")Timestamp startdate,@Param("enddate")Timestamp enddate);
 }
