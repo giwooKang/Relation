@@ -1,0 +1,17 @@
+.main_image{
+    overflow: hidden;
+    cursor: pointer;
+}
+.main_image .keyword{
+    font-size: 1.3rem;
+    position: absolute;
+    bottom: -50px;
+    margin-bottom: 0;
+    padding: 5px;
+    background: #fff;
+    width: 100%;
+    transition-duration: .5s;
+}
+.main_image.on .keyword{
+    bottom: 0px;
+}

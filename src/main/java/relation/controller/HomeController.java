@@ -5,6 +5,7 @@ package relation.controller;
  */
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import relation.domain.HotKeyword;
 import relation.service.DaumService;
@@ -30,38 +31,9 @@ public class HomeController {
     HotKeywordMapper hotKeywordMapper;
 
     @RequestMapping
-    public String home() {
-        HashSet<String> nRankList= null;
-        HashSet<String> dRankList = null;
-        HashMap<String,Integer> aa= new HashMap<String,Integer>();
-        HotKeyword hotKeyword = new HotKeyword();
-        hotKeyword.setDatetime(new Timestamp(Calendar.getInstance().getTime().getTime()));
-        hotKeyword.setDaum(true);
-        hotKeyword.setGoogle(false);
-        hotKeyword.setNaver(true);
-        hotKeyword.setImage("image");
-        hotKeyword.setKeyword("keyword");
+    public String home(Model model) {
+        model.addAttribute("hotkeywords",hotKeywordMapper.getDictinctRecentlyKeyword(10));
 
-        //hotKeywordMapper.insert(hotKeyword);
-        for(HotKeyword h:hotKeywordMapper.findByKeyword("keyword")){
-            System.out.println(h);
-        }
-
-
-/*        nRankList = naverParser.getCurrentRankList();
-        dRankList= daumParser.getCurrentRankList();
-
-
-        aa = naverParser.getRelatedSearchesMap("최순실",2);
-        for(String e: aa.keySet()){
-           // System.out.println(e +" : " + aa.get(e));
-        }
-        List<String> aaa = ParserUtil.sortByValue(aa);
-        for(String e: aaa){
-            System.out.println(e);
-        }*/
-        //naverParser.getRelatedSearches("정유라");
-        //daumParser.getRelatedSearches("abc");
         return "index";
     }
 
