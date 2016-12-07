@@ -20,4 +20,6 @@ public interface HotKeywordMapper {
     @Select("SELECT * FROM RELATION.HOTKEYWORDS WHERE KEYWORD = #{keyword}")
     List<HotKeyword> findByKeyword(@Param("keyword") String keyword);
 
+    @Select("SELECT * FROM RELATION.HOTKEYWORDS ORDER BY DATETIME DESC LIMIT #{count}")
+    List<HotKeyword> getRecentlyKeyword(@Param("count") int count);
 }

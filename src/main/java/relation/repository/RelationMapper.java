@@ -17,7 +17,7 @@ public interface RelationMapper {
     @SelectKey(statement = "SELECT LAST_INSERT_ID()", keyProperty = "id", before = false, resultType = int.class)
     void insert(RelationToJsonWrapper relationToJsonWrapper);
 
-    @Update("UPDATE RELATION SET KEYWORD = #{keyword}, RELATION = #{relation}, DATE = #{date} WHERE ID = #{id}")
+    @Update("UPDATE RELATION SET KEYWORD = #{keyword}, DATE = #{date}, RELATION = #{relation} WHERE ID = #{id}")
     void update(RelationToJsonWrapper relationToJsonWrapper);
 
     @Select("SELECT * FROM RELATION WHERE ID = #{id}")

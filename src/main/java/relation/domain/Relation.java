@@ -1,5 +1,6 @@
 package relation.domain;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -9,20 +10,20 @@ import java.util.HashMap;
 public class Relation {
     private int id;
     private String keyword;
-    private Date date;
+    private Timestamp date;
     private HashMap<String, Integer> relation;
 
     public Relation() {
     }
 
-    public Relation(int id, String keyword, Date date, HashMap<String, Integer> relation) {
+    public Relation(int id, String keyword, Timestamp date, HashMap<String, Integer> relation) {
         this.id = id;
         this.keyword = keyword;
         this.date = date;
         this.relation = relation;
     }
 
-    public Relation(String keyword, Date date, HashMap<String, Integer> relation) {
+    public Relation(String keyword, Timestamp date, HashMap<String, Integer> relation) {
         this.keyword = keyword;
         this.date = date;
         this.relation = relation;
@@ -36,7 +37,7 @@ public class Relation {
         return keyword;
     }
 
-    public Date getDate() {
+    public Timestamp getDate() {
         return date;
     }
 
@@ -52,7 +53,7 @@ public class Relation {
         this.keyword = keyword;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Timestamp date) {
         this.date = date;
     }
 

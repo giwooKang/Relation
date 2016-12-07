@@ -9,13 +9,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>Reuslt</title>
+    <title>Result</title>
 </head>
 <body>
 <h2>트위터 검색 결과: 검색어 - ${keyword}</h2>
 
 <c:forEach var="item" items="${tweets}">
-    ${item.getTitle()}, ${item.getLink()} <br/><br/>
+    ${item.getTitle()}, ${item.getImage()} <br/><br/>
 </c:forEach>
 </body>
 </html>

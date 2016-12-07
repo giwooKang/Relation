@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+import relation.domain.daum.DaumImageResult;
 import relation.domain.naver.NaverImageResult;
 import twitter4j.*;
 import twitter4j.conf.ConfigurationBuilder;
@@ -50,18 +51,30 @@ public class TwitterController {
 //            // do nothing
 //        }
 
-        //https://openapi.naver.com/v1/search/image.json?query=박근혜&sort=sim
+//        네이버
+//        RestTemplate restTemplate = new RestTemplate();
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.add("X-Naver-Client-Id", "3n_QVryXZYHZZNVxez2A");
+//        headers.add("X-Naver-Client-Secret", "e5plstdc06");
+//        HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
+//        try{
+//            ResponseEntity<NaverImageResult> naverImageResultResponseEntity = restTemplate.exchange("https://openapi.naver.com/v1/search/image.json?query="+keyword+"&sort=sim", HttpMethod.GET, entity, NaverImageResult.class);
+//            NaverImageResult result = naverImageResultResponseEntity.getBody();
+//
+//            model.addAttribute("keyword", keyword);
+//            model.addAttribute("tweets", result.getItems());
+//        }catch (RestClientException e){
+//            e.printStackTrace();
+//        }
+
         RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("X-Naver-Client-Id", "3n_QVryXZYHZZNVxez2A");
-        headers.add("X-Naver-Client-Secret", "e5plstdc06");
-        HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
+
         try{
-            ResponseEntity<NaverImageResult> naverImageResultResponseEntity = restTemplate.exchange("https://openapi.naver.com/v1/search/image.json?query="+keyword+"&sort=sim", HttpMethod.GET, entity, NaverImageResult.class);
-            NaverImageResult result = naverImageResultResponseEntity.getBody();
+            ResponseEntity<DaumImageResult> daumImageResultResponseEntity = restTemplate.getForEntity("https://apis.daum.net/search/image?apikey=43380223cdfbc19f8381059bff9954b3&output=json&q=" + keyword, DaumImageResult.class);
+            DaumImageResult result = daumImageResultResponseEntity.getBody();
 
             model.addAttribute("keyword", keyword);
-            model.addAttribute("tweets", result.getItems());
+            model.addAttribute("tweets", result.getChannel().getItem());
         }catch (RestClientException e){
             e.printStackTrace();
         }

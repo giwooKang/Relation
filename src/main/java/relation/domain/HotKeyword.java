@@ -16,6 +16,18 @@ public class HotKeyword {
 
     private Timestamp datetime;
 
+    public HotKeyword() {
+    }
+
+    public HotKeyword(String keyword, String image, Boolean google, Boolean naver, Boolean daum, Timestamp datetime) {
+        this.id = 0;
+        this.keyword = keyword;
+        this.image = image;
+        this.google = google;
+        this.naver = naver;
+        this.daum = daum;
+        this.datetime = datetime;
+    }
 
     public int getId() {
         return id;

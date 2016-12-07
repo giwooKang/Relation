@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -13,7 +14,7 @@ import java.util.HashMap;
 public class RelationToJsonWrapper {
     private int id;
     private String keyword;
-    private Date date;
+    private Timestamp date;
     private String relation;
 
     public RelationToJsonWrapper() {
@@ -46,7 +47,7 @@ public class RelationToJsonWrapper {
         return keyword;
     }
 
-    public Date getDate() {
+    public Timestamp getDate() {
         return date;
     }
 
@@ -62,7 +63,7 @@ public class RelationToJsonWrapper {
         this.keyword = keyword;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Timestamp date) {
         this.date = date;
     }
 

@@ -8,24 +8,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import relation.domain.HotKeyword;
 import relation.service.DaumService;
-import relation.service.NaverService;
-import relation.service.RelationUtil;
+import relation.service.NaverRelationAnalyzeService;
+import relation.service.RelationService;
 import relation.repository.HotKeywordMapper;
 
 import javax.inject.Inject;
 import java.sql.Timestamp;
 import java.util.*;
 
-
 @Controller
 @RequestMapping("/")
 public class HomeController {
     @Inject
-    NaverService naverService;
+    NaverRelationAnalyzeService naverRelationAnalyzeService;
     @Inject
     DaumService daumService;
     @Inject
-    RelationUtil relationUtil;
+    RelationService relationService;
 
     @Inject
     HotKeywordMapper hotKeywordMapper;
