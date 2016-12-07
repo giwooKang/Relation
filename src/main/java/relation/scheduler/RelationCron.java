@@ -34,7 +34,6 @@ public class RelationCron {
     private RelationMapper relationMapper;
 
     @Async
-
     @Scheduled(fixedRate = 3600000)
     public void CropKeywordAndAnalyzeRelation() {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");

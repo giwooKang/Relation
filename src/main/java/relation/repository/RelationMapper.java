@@ -13,19 +13,19 @@ import java.util.List;
 
 @Repository
 public interface RelationMapper {
-    @Insert("INSERT INTO RELATION (KEYWORD, DATE, RELATION) VALUES (#{keyword}, #{date}, #{relation})")
+    @Insert("INSERT INTO relation.relation (KEYWORD, DATE, RELATION) VALUES (#{keyword}, #{date}, #{relation})")
     @SelectKey(statement = "SELECT LAST_INSERT_ID()", keyProperty = "id", before = false, resultType = int.class)
     void insert(RelationToJsonWrapper relationToJsonWrapper);
 
-    @Update("UPDATE RELATION SET KEYWORD = #{keyword}, DATE = #{date}, RELATION = #{relation} WHERE ID = #{id}")
+    @Update("UPDATE relation.relation SET KEYWORD = #{keyword}, DATE = #{date}, RELATION = #{relation} WHERE ID = #{id}")
     void update(RelationToJsonWrapper relationToJsonWrapper);
 
-    @Select("SELECT * FROM RELATION WHERE ID = #{id}")
+    @Select("SELECT * FROM relation.relation WHERE ID = #{id}")
     List<RelationToJsonWrapper> findById(@Param("id") int id);
 
-    @Select("SELECT * FROM RELATION WHERE KEYWORD = #{keyword}")
+    @Select("SELECT * FROM relation.relation WHERE KEYWORD = #{keyword}")
     List<RelationToJsonWrapper> findByKeyword(@Param("keyword") String keyword);
 
-    @Delete("DELETE FROM RELATION WHERE ID = #{id}")
+    @Delete("DELETE FROM relation.relation WHERE ID = #{id}")
     void delete(Authority authority);
 }
