@@ -1,5 +1,33 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <!-- Compatibility for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <!-- Set viewport for N-Screen -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <!-- Development -->
+    <meta name="robots" content="noindex, nofollow">
+    <!-- Release -->
+    <meta name="robots" content="index, follow">
+    <title> HTML5 Template </title>
+    <!-- favicon image -->
+    <link rel="shortcut icon" href="favicon.png">
+
+    <!-- css -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="/resources/css/material.min.css" rel="stylesheet">
+    <link href="/resources/css/project.min.css" rel="stylesheet">
+    <link href="/resources/css/common.css" rel="stylesheet">
+</head>
+<body>
+
 
 <div class="toolbar toolbar-waterfall toolbar-dark doc-toolbar" id="doc_index_toolbar">
     <a class="toolbar-toggler float-xs-left hidden-lg-up" data-toggle="navdrawer" data-type="permanent" href="#doc_index_navdrawer_menu"><i class="sr-only">menu</i></a>
@@ -72,12 +100,24 @@
             <div class="col-sm-10 col-md-10 col-xl-10 offset-sm-1 offset-md-1 offset-xl-1">
                 <c:forEach var="item" items="${hotkeywords}">
                     <c:if test="${item.image !=''}">
-                    <div class="col-xl-2 col-md-4 sm-6 mt-lg main_image" data-keyword="${item.keyword}">
-                        <a href="/"><img src="${item.image}" alt="" class="img-thumbnail img-fluid"></a>
-                    </div>
+                        <div class="col-xl-2 col-md-4 sm-6 mt-lg main_image" data-keyword="${item.keyword}">
+                            <a href="/"><img src="${item.image}" alt="" class="img-thumbnail img-fluid"></a>
+                        </div>
                     </c:if >
                 </c:forEach>
             </div>
         </div>
     </div>
 </main>
+
+
+</body>
+
+<!-- js -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.3.7/js/tether.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.4/js/bootstrap.min.js"></script>
+<script src="/resources/js/material.min.js"></script>
+<script src="/resources/js/project.min.js"></script>
+<script src="/resources/js/main.js"> </script>
+</html>

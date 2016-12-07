@@ -8,6 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import relation.domain.HotKeyword;
+import relation.domain.Relation;
+import relation.domain.RelationToJsonWrapper;
+import relation.repository.RelationMapper;
 import relation.service.DaumService;
 import relation.service.NaverRelationAnalyzeService;
 import relation.service.RelationService;
@@ -29,12 +32,30 @@ public class HomeController {
 
     @Inject
     HotKeywordMapper hotKeywordMapper;
+    @Inject
+    RelationMapper relationMapper;
 
     @RequestMapping
     public String home(Model model) {
-        model.addAttribute("hotkeywords",hotKeywordMapper.getDictinctRecentlyKeyword(10));
+        model.addAttribute("hotkeywords",hotKeywordMapper.getDictinctRecentlyKeyword(30));
 
         return "index";
+    }
+
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    public String search(Model model,@RequestParam(required=true) String keyword) {
+        List<RelationToJsonWrapper> relationToJsonWrapperList = relationMapper.findByKeyword(keyword);
+
+        if(relationToJsonWrapperList.size()==0) {
+
+        }else {
+            
+        }
+
+
+        relationMapper.findByKeyword("!23");
+
+        return "search";
     }
 
 

@@ -2,15 +2,20 @@
     overflow: hidden;
     cursor: pointer;
 }
+.main_image img{
+    width:100%;
+}
 .main_image .keyword{
     font-size: 1.3rem;
     position: absolute;
-    bottom: -50px;
+    bottom: -70px;
     margin-bottom: 0;
     padding: 5px;
-    background: #fff;
-    width: 100%;
+    background: #ba67c7;
+    opacity:0.8;
+    width: calc(100% - 0.75rem - 12px);
     transition-duration: .5s;
+    color:#fff;
 }
 .main_image.on .keyword{
     bottom: 0px;

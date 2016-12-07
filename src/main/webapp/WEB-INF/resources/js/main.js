@@ -5,6 +5,8 @@ $(document).ready(function () {
         $(this).append("<p class=\"keyword\">"+keyword+"</p>");
 
     });
+    var width = $("#main .main_image").width();
+    $("#main .main_image").height(width);
 
    $("#main .main_image").hover(function(){
            $(this).addClass("on");
@@ -12,6 +14,11 @@ $(document).ready(function () {
        function(){
            $(this).removeClass("on");
        });
+
+    $(window).resize(function () {
+        var width = $("#main .main_image").width();
+        $("#main .main_image").height(width);
+    });
 
 
 });
