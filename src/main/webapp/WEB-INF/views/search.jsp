@@ -25,6 +25,15 @@
     <link href="/resources/css/material.min.css" rel="stylesheet">
     <link href="/resources/css/project.min.css" rel="stylesheet">
     <link href="/resources/css/common.css" rel="stylesheet">
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/4.10.3/css/bootstrap-slider.min.css">
+    <link href="/resources/css/cy.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/qtip2/2.2.0/jquery.qtip.min.css" rel="stylesheet" type="text/css" />
+
 </head>
 <body>
 
@@ -61,54 +70,34 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-10 col-md-8 col-xl-6 offset-sm-1 offset-md-2 offset-xl-3">
-                <h1 class="typography-display-4">Rel</h1>
-                <p class="font-weight-light typography-title">구글, 네이버, 다음 등 검색엔진에서 핫이슈들을 참고하고 그와 관련된 키워드들을 취합하여, 보기쉽게 보여줍니다.</p>
-                <p><a class="btn btn-lg btn-secondary" data-toggle="modal" href="#help">도움말</a></p>
-                <p class="mb-no text-white-hint typography-caption"></p>
+                <h5 class="typography-display-4">${keyword.keyword}</h5>
             </div>
         </div>
     </div>
 </div>
 
-<div class="dialog fade" id="help" tabindex="-1">
-    <div class="dialog-dialog">
-        <div class="dialog-content">
-            <div class="dialog-header">
-                <h2 class="dialog-title">Download</h2>
-            </div>
-            <div class="dialog-body">
-                <p>Material v4.0.0-alpha.2 is available for download in several ways, including some of the favourite package managers.</p>
-                <h3 class="mt-lg typography-subheading">Material CSS and JS</h3>
-                <p>Download Material's ready-to-use code to easily drop into any project. Includes compiled and minified versions of CSS and JS plugins.</p>
-                <p><a class="btn btn-flat-primary" href="https://github.com/Daemonite/material/releases" target="_blank">Download Material</a></p>
-                <h3 class="mt-lg typography-subheading">Package Managers</h3>
-                <p>Pull in Material's source files into nearly any project with some of the most popular package managers.</p>
-                <pre class="p-a-md">
-<code>npm install daemonite-material@4.0.0-alpha.2</code>
-</pre>
-                <pre class="p-a-md">
-<code>bower install daemonite-material#4.0.0-alpha.2</code>
-</pre>
-            </div>
-        </div>
-    </div>
-</div>
 
-<main class="doc-main" id="main" role="main" style="padding-bottom: 60px;">
+<main class="doc-main" role="main" style="padding-bottom: 60px;">
     <div class="container">
         <div class="row">
             <div class="col-sm-10 col-md-10 col-xl-10 offset-sm-1 offset-md-1 offset-xl-1">
-                <c:forEach var="item" items="${hotkeywords}">
-                    <c:if test="${item.image !=''}">
-                        <div class="col-xl-2 col-md-4 sm-6 mt-lg main_image" data-keyword="${item.keyword}">
-                            <a href="/"><img src="${item.image}" alt="" class="img-thumbnail img-fluid"></a>
-                        </div>
-                    </c:if >
-                </c:forEach>
+                <div class="col-sm-10 col-md-10 col-xl-10"><div id="cy"></div></div>
+                <div class="col-sm-2 col-md-2 col-xl-2"><div id="config" class="config"></div></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4 col-md-4 col-xl-4">
+            </div>
+            <div class="col-sm-4 col-md-4 col-xl-4">
+
+            </div>
+            <div class="col-sm-4 col-md-4 col-xl-4">
+
             </div>
         </div>
     </div>
 </main>
+
 
 
 </body>
@@ -119,5 +108,192 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.4/js/bootstrap.min.js"></script>
 <script src="/resources/js/material.min.js"></script>
 <script src="/resources/js/project.min.js"></script>
-<script src="/resources/js/main.js"> </script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.10.0/lodash.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/4.10.3/bootstrap-slider.min.js"></script>
+<script src="http://marvl.infotech.monash.edu/webcola/cola.v3.min.js"></script>
+<script src="http://cytoscape.github.io/cytoscape.js/api/cytoscape.js-latest/cytoscape.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/qtip2/2.2.0/jquery.qtip.min.js"></script>
+<script src="https://cdn.rawgit.com/cytoscape/cytoscape.js-qtip/2.2.5/cytoscape-qtip.js"></script>
+<script src="https://cdn.rawgit.com/cytoscape/cytoscape.js-cola/1.1.1/cytoscape-cola.js"></script>
+<%
+
+
+
+%>
+<script>
+    var cy;
+
+    $(function(){ // on dom ready
+
+        cy = cytoscape({
+            container: document.getElementById('cy'),
+
+            style: [{"selector":"core","style":{"selection-box-color":"#AAD8FF","selection-box-border-color":"#8BB0D0","selection-box-opacity":"0.5"}},{"selector":"node","style":{"width":"mapData(score, 0, 0.006769776522008331, 20, 60)","height":"mapData(score, 0, 0.006769776522008331, 20, 60)","content":"data(name)","font-size":"12px","text-valign":"center","text-halign":"center","background-color":"#555","text-outline-color":"#555","text-outline-width":"2px","color":"#fff","overlay-padding":"6px","z-index":"10"}},{"selector":"node[?attr]","style":{"shape":"rectangle","background-color":"#aaa","text-outline-color":"#aaa","width":"16px","height":"16px","font-size":"6px","z-index":"1"}},{"selector":"node[?query]","style":{"background-clip":"none","background-fit":"contain"}},{"selector":"node:selected","style":{"border-width":"6px","border-color":"#AAD8FF","border-opacity":"0.5","background-color":"#77828C","text-outline-color":"#77828C"}},{"selector":"edge","style":{"curve-style":"haystack","haystack-radius":"0.5","opacity":"0.4","line-color":"#bbb","width":"mapData(weight, 0, 1, 1, 8)","overlay-padding":"3px"}},{"selector":"node.unhighlighted","style":{"opacity":"0.2"}},{"selector":"edge.unhighlighted","style":{"opacity":"0.05"}},{"selector":".highlighted","style":{"z-index":"999999"}},{"selector":"node.highlighted","style":{"border-width":"6px","border-color":"#AAD8FF","border-opacity":"0.5","background-color":"#394855","text-outline-color":"#394855","shadow-blur":"12px","shadow-color":"#000","shadow-opacity":"0.8","shadow-offset-x":"0px","shadow-offset-y":"4px"}},{"selector":"edge.filtered","style":{"opacity":"0"}},{"selector":"edge[group=\"coexp\"]","style":{"line-color":"#d0b7d5"}},{"selector":"edge[group=\"coloc\"]","style":{"line-color":"#a0b3dc"}},{"selector":"edge[group=\"gi\"]","style":{"line-color":"#90e190"}},{"selector":"edge[group=\"path\"]","style":{"line-color":"#9bd8de"}},{"selector":"edge[group=\"pi\"]","style":{"line-color":"#eaa2a2"}},{"selector":"edge[group=\"predict\"]","style":{"line-color":"#f6c384"}},{"selector":"edge[group=\"spd\"]","style":{"line-color":"#dad4a2"}},{"selector":"edge[group=\"spd_attr\"]","style":{"line-color":"#D0D0D0"}},{"selector":"edge[group=\"reg\"]","style":{"line-color":"#D0D0D0"}},{"selector":"edge[group=\"reg_attr\"]","style":{"line-color":"#D0D0D0"}},{"selector":"edge[group=\"user\"]","style":{"line-color":"#f0ec86"}}],
+
+            elements: [${json}]
+        });
+
+        var params = {
+            name: 'cola',
+            nodeSpacing: 5,
+            edgeLengthVal: 45,
+            animate: true,
+            randomize: false,
+            maxSimulationTime: 1500
+        };
+        var layout = makeLayout();
+        var running = false;
+
+        cy.on('layoutstart', function(){
+            running = true;
+        }).on('layoutstop', function(){
+            running = false;
+        });
+
+        layout.run();
+
+        var $config = $('#config');
+        var $btnParam = $('<div class="param"></div>');
+        $config.append( $btnParam );
+
+        var sliders = [
+            {
+                label: 'Edge length',
+                param: 'edgeLengthVal',
+                min: 1,
+                max: 200
+            },
+
+            {
+                label: 'Node spacing',
+                param: 'nodeSpacing',
+                min: 1,
+                max: 50
+            }
+        ];
+
+        var buttons = [
+            {
+                label: '<i class="fa fa-random"></i>',
+                layoutOpts: {
+                    randomize: true,
+                    flow: null
+                }
+            },
+
+            {
+                label: '<i class="fa fa-long-arrow-down"></i>',
+                layoutOpts: {
+                    flow: { axis: 'y', minSeparation: 30 }
+                }
+            }
+        ];
+
+        sliders.forEach( makeSlider );
+
+        buttons.forEach( makeButton );
+
+        function makeLayout( opts ){
+            params.randomize = false;
+            params.edgeLength = function(e){ return params.edgeLengthVal / e.data('weight'); };
+
+            for( var i in opts ){
+                params[i] = opts[i];
+            }
+
+            return cy.makeLayout( params );
+        }
+
+        function makeSlider( opts ){
+            var $input = $('<input></input>');
+            var $param = $('<div class="param"></div>');
+
+            $param.append('<span class="label label-default">'+ opts.label +'</span>');
+            $param.append( $input );
+
+            $config.append( $param );
+
+            var p = $input.slider({
+                min: opts.min,
+                max: opts.max,
+                value: params[ opts.param ]
+            }).on('slide', _.throttle( function(){
+                params[ opts.param ] = p.getValue();
+
+                layout.stop();
+                layout = makeLayout();
+                layout.run();
+            }, 16 ) ).data('slider');
+        }
+
+        function makeButton( opts ){
+            var $button = $('<button class="btn btn-default">'+ opts.label +'</button>');
+
+            $btnParam.append( $button );
+
+            $button.on('click', function(){
+                layout.stop();
+
+                if( opts.fn ){ opts.fn(); }
+
+                layout = makeLayout( opts.layoutOpts );
+                layout.run();
+            });
+        }
+
+        cy.nodes().forEach(function(n){
+            var g = n.data('name');
+
+            n.qtip({
+                content: [
+                    {
+                        name: 'Google',
+                        url: 'https://www.google.com/search?q=' + g
+                    },
+                    {
+                        name: 'Naver',
+                        url: 'https://search.naver.com/search.naver?query='+ g
+                    },
+                    {
+                        name: 'Daum',
+                        url: 'http://search.daum.net/search?w=tot&q=' + g
+                    }
+                ].map(function( link ){
+                    return '<a target="_blank" href="' + link.url + '">' + link.name + '</a>';
+                }).join('<br />\n'),
+                position: {
+                    my: 'top center',
+                    at: 'bottom center'
+                },
+                style: {
+                    classes: 'qtip-bootstrap',
+                    tip: {
+                        width: 16,
+                        height: 8
+                    }
+                }
+            });
+        });
+
+        $('#config-toggle').on('click', function(){
+            $('body').toggleClass('config-closed');
+
+            cy.resize();
+        });
+
+    }); // on dom ready
+
+    $(function() {
+        FastClick.attach( document.body );
+    });
+
+
+
+
+
+</script>
 </html>

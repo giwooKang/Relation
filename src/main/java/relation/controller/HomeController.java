@@ -29,7 +29,6 @@ public class HomeController {
     DaumService daumService;
     @Inject
     RelationService relationService;
-
     @Inject
     HotKeywordMapper hotKeywordMapper;
     @Inject
@@ -49,12 +48,31 @@ public class HomeController {
         if(relationToJsonWrapperList.size()==0) {
 
         }else {
-            
+
         }
+        model.addAttribute("keyword",relationToJsonWrapperList.get(0).toRelation());
+        HashMap<String,Integer> map = relationToJsonWrapperList.get(0).toRelation().getRelation();
 
+        int i=1;
+        String json="";
+        for (String s: map.keySet()){
+            if(map.get(s) > 1) {
+                String temp = "{data: { id: '" + i + "',name:'" + s + "',weight :"+(float)map.get(s)*100+"  }},";
+                json += temp;
+                i++;
+            }
+        }
+        int id = i+1;
+        for(int j=1;j<i;j++){
+            for(int k=j+1;k<i;k++){
+                String temp="{data: { id: '"+(id++)+"', source:'"+j+"' , target:'"+k+"'}},";
+                json+=temp;
+            }
 
-        relationMapper.findByKeyword("!23");
-
+        }
+        json=json.substring(0, json.length()-1);
+        System.out.println(id);
+        model.addAttribute("json",json);
         return "search";
     }
 
