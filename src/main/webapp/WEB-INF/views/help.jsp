@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" content="text/html">
     <!-- Compatibility for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <!-- Set viewport for N-Screen -->
@@ -22,7 +22,6 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="/resources/css/material.min.css" rel="stylesheet">
     <link href="/resources/css/project.min.css" rel="stylesheet">
-    <link href="/resources/css/common.css" rel="stylesheet">
 </head>
 <body>
 <%@include file="layout/header.jsp"%>
@@ -38,5 +37,5 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.4/js/bootstrap.min.js"></script>
 <script src="/resources/js/material.min.js"></script>
 <script src="/resources/js/project.min.js"></script>
-<script src="/resources/js/main.js"> </script>
+<script src="/resources/js/main.js"></script>
 </html>
