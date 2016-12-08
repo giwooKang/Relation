@@ -60,9 +60,11 @@
 <nav class="navdrawer navdrawer-permanent" id="doc_index_navdrawer_menu">
     <div class="navdrawer-content">
         <div class="toolbar toolbar-bordered">
-            <a class="toolbar-brand" href="#" style="font-weight: bold;">최근 검색어</a>
+            <a class="toolbar-brand" href="#" style="font-weight: bold;">실시간 핫이슈</a>
         </div>
-        <p class="navdrawer-subheader"><a href="">More to come...</a></p>
+        <c:forEach var="item" items="${currentHot}">
+            <p class="navdrawer-subheader"><a href="/search?keyword=${item}">${item}</a></p>
+        </c:forEach>
     </div>
 </nav>
 

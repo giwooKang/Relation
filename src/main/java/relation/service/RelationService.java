@@ -56,6 +56,20 @@ public class RelationService {
         }
         return null;
     }
+    public HashSet<String> getCurrentList(){
+        HashSet<String> rankSet = new HashSet<String>();
+
+        List<String> naverKeywordList = new ArrayList<String>();
+        List<String> daumKeywordList = new ArrayList<String>();
+
+        naverKeywordList.addAll(documentParserService.getCurrentRankList(DocumentParserService.Site.Naver));
+        daumKeywordList.addAll(documentParserService.getCurrentRankList(DocumentParserService.Site.Daum));
+
+        rankSet.addAll(naverKeywordList);
+        rankSet.addAll(daumKeywordList);
+
+        return rankSet;
+    }
 
     public List<HotKeyword> getCurrentRankList() {
         HashSet<String> rankSet = new HashSet<String>();
