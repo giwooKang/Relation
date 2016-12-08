@@ -42,8 +42,8 @@
     <a class="toolbar-toggler float-xs-left hidden-lg-up" data-toggle="navdrawer" data-type="permanent" href="#doc_index_navdrawer_menu"><i class="sr-only">menu</i></a>
     <a class="toolbar-brand hidden-lg-up" href="/">Rel</a>
     <div class ="float-xs-left col-md-4">
-        <form action="/" method="get">
-            <input type="text" class="form-control" placeholder="Search...">
+        <form action="/search" method="get">
+            <input type="text" name="keyword" class="form-control" placeholder="Search...">
         </form>
     </div>
 
@@ -293,7 +293,9 @@
         FastClick.attach( document.body );
     });
 
-
+$(document).ready(function () {
+   $(".fa-random").click();
+});
 
 
 
