@@ -92,7 +92,4 @@ public class HomeController {
         model.addAttribute("currentHot",relationService.getCurrentList().iterator());
         return "search";
     }
-
-
-
 }
