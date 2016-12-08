@@ -141,10 +141,10 @@
 
         var params = {
             name: 'cola',
-            nodeSpacing: 5,
+            nodeSpacing: 1,
             edgeLengthVal: 45,
             animate: true,
-            randomize: false,
+            randomize: true,
             maxSimulationTime: 1500
         };
         var layout = makeLayout();

@@ -57,9 +57,14 @@ public class HomeController {
 
         int i=1;
         String json="";
+        float sum = 0;
+        for(Integer aa : map.values()){
+            sum += aa;
+        }
+        sum*=10;
         for (String s: map.keySet()){
             if(map.get(s) > 1) {
-                String temp = "{data: { id: '" + i + "',name:'" + s + "',weight :"+(float)map.get(s)*100+"  }},";
+                String temp = "{data: { id: '" + i + "',name:'" + s + "',score :"+(float)map.get(s)/sum+",  }},";
                 ids.put(s,i);
                 json += temp;
                 i++;
@@ -69,6 +74,7 @@ public class HomeController {
         List<String> sortlist = RelationService.sortByValue(ids);
 
         for (String key:sortlist){
+            System.out.println(key);
             for(int j=0;j<map.get(key);j++){
                 String temp="{data: { id: '"+(id++)+"', source:'"+ids.get(key)+"' , target:'"+ids.get(sortlist.get(j))+"'}},";
                 json+=temp;
